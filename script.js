@@ -1,16 +1,17 @@
 let myLibrary = [];
 
-function Book(title,author,pages,readstatus) {
+function Book(title, author, pages, readstatus) {
     this.title = title
     this.author = author
     this.pages = pages
     this.readstatus = readstatus
-    this.info = function() {
-        return {title,author,pages,readstatus};
+    this.info = function () {
+        return { title, author, pages, readstatus };
     };
 }
 
-var NewBookButtonElement = document.querySelector("button");
+
+var NewBookButtonElement = document.getElementById("1st button");
 NewBookButtonElement.addEventListener('click', NewBookAdder);
 
 function NewBookAdder(event) {
@@ -21,40 +22,55 @@ function NewBookAdder(event) {
 
 function addBookToLibrary() {
     var title = prompt("title");
-    var author = prompt ("author");
-    var pages = prompt ("pages");
-    var readstatus = prompt ('readstatus');
+    var author = prompt("author");
+    var pages = prompt("pages");
+    var readstatus = prompt('readstatus');
     myLibrary.push((new Book(title, author, pages, readstatus)));
     console.log(myLibrary);
     var lastindex = myLibrary.length - 1;
     console.log(lastindex);
-    console.log(typeof(lastindex));
+    console.log(typeof (lastindex));
     DisplayBook(lastindex);
 }
 const LibraryElement = document.getElementById("Library");
 
 function DisplayBook(lastindex) {
-        const booknode = document.createElement("div");
-        booknode.id = "someid";
-        var value = JSON.stringify(myLibrary[lastindex]);
-        booknode.innerText = value;
-        LibraryElement.appendChild(booknode);
-        console.log(JSON.stringify(myLibrary[lastindex]));
+    const booknode = document.createElement("div");
+    booknode.id = "someid" + lastindex;
+    var value = JSON.stringify(myLibrary[lastindex]);
+    booknode.innerText = value;
+    LibraryElement.appendChild(booknode);
+    console.log(JSON.stringify(myLibrary[lastindex]));
+    RemoveBook(lastindex);
+
+}
+
+
+function RemoveBook(lastindex) {
+    const Removebtnn = document.createElement("button");
+    Removebtnn.innerHTML = "Remove_Book";
+    const booknode = document.getElementById("someid"+lastindex);
+    console.log(booknode === true);
+    if (booknode) {
+        booknode.appendChild(Removebtnn)
+        buttonfunctionalityadder();
     }
+    else {
+      alert ('uh');  
+    }
+}
 
-// attemp1; butclick->addb -empty array> it pushes something-> displays it then the foreach loop does display book for it
+function buttonfunctionalityadder() {
+    const buttonnode =  document.querySelectorAll('button:not([id])');;
+    const buttonnodearray = Array.from(buttonnode);
+    for (var i = 0; i < buttonnodearray.length; i++) {
+    buttonnodearray[i].addEventListener('click', RemoveBookWork);
+}
+}
 
-//attempt2;butclick
+function RemoveBookWork(event) {
+element = event.target;
+const closestdiv = element.closest('[id^="someid"]');
+closestdiv.style.display = "none";
+}
 
-
-// Add a “NEW BOOK” button that brings up a form allowing users to input the details for the new book: author, title, number of pages, whether it’s been read and anything else you might want.
-
-
-
-// findareainhtml(qs/all)->d.createElement->add id maybe-> append 1st const to 2nd one -> add some inner text 
-
-
-
-// const theHobbit = new Book('The Hobbit','by J.R.R. Tolkien','295 pages','not read yet');
-
-// console.log(theHobbit.info())
